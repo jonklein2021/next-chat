@@ -4,7 +4,35 @@ import styles from '../styles/Home.module.css'
 import bg from '../public/shapes.jpg'
 import Link from 'next/link'
 
-export default class Home extends React.Component {
+class Home extends React.Component {
+  // store user inputs in state
+  state = {
+    username: null,
+    password: null,
+  }
+
+  // check db for user/pass pair
+  // admit entry if it exists, reject otherwise
+  login = async () => {
+    try {
+      const res = await fetch('api/query', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(this.state)
+      });
+      const data = await res.json();
+      if (data.data.length === 0) {
+        console.log("LOGIN FAILED");
+      } else {
+        console.log("LOGIN SUCCESSFUL");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render () {
     return (
       <>
@@ -24,13 +52,13 @@ export default class Home extends React.Component {
 
             <h1>Sign in</h1>
 
-            <input placeholder='Username' id='username' className={styles.input} />
+            <input placeholder='Username' id='username' className={styles.input} onChange={e => this.setState({username: e.target.value})} />
 
-            <input placeholder='Password' id='password' className={styles.input} />
+            <input placeholder='Password' id='password' className={styles.input} onChange={e => this.setState({password: e.target.value})} />
 
-            <button className={styles.submit}>Log in</button>
+            <button className={styles.submit} onClick={() => this.login()}>Log in</button>
 
-            <p>No account? Register <Link href={"http://example.com/"} style={{color: "rgb(0, 141, 207)"}}>here</Link></p>
+            <p>No account? Register <Link href="/register" style={{color: "rgb(0, 141, 207)"}}>here</Link></p>
           </div>
 
         </main>
@@ -38,3 +66,5 @@ export default class Home extends React.Component {
     )
   }
 }
+
+export default Home;

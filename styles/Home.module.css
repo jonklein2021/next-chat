@@ -28,7 +28,7 @@
 
 .box p {
   font-size: 11pt;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .input {
@@ -37,6 +37,7 @@
   font-size: 11pt;
   background-color: #FFF;
   border-color: #000;
+  color: #000;
   border-radius: 25px;
   border-width: 1px;
   padding-left: 10px;
