@@ -1,14 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/NoUser.module.css'
 import bg from '../public/shapes.jpg'
 import Link from 'next/link'
 
-class Home extends React.Component {
+class Login extends React.Component {
   // store user inputs in state
   state = {
-    username: null,
-    password: null,
+    username: "",
+    password: "",
   }
 
   // check db for user/pass pair
@@ -23,17 +23,23 @@ class Home extends React.Component {
         body: JSON.stringify(this.state)
       });
       const data = await res.json();
+      console.log(data);
+      
+
       if (data.data.length === 0) {
+        // user not found in db
         console.log("LOGIN FAILED");
       } else {
-        console.log("LOGIN SUCCESSFUL");
+        // user logs in successfully
+        sessionStorage.setItem("active-user", this.state.username);
+        window.location.href = "/home";
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  render () {
+  render(): React.ReactNode {
     return (
       <>
         <Head>
@@ -67,4 +73,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Login;

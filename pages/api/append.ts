@@ -9,7 +9,7 @@ export default async function append(req: NextApiRequest, res: NextApiResponse) 
     await mongoose.connect("mongodb://localhost/next-chat");
     console.log('** CONNECTION MADE SUCCESSFULLY **');
     
-    // query & wait for response
+    // create document and send to db
     console.log('** CREATING MONGO DOCUMENT... **');
     const data = await User.create(req.body);
     console.log('** DOCUMENT CREATED SUCCESSFULLY **');

@@ -1,6 +1,6 @@
 import React from "react";
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/NoUser.module.css'
 import bg from '../public/shapes.jpg'
 import Link from 'next/link'
 
@@ -10,7 +10,7 @@ type state = {
   firstName: String,
   lastName: String,
   age: Number,
-  error: Boolean
+  showError: Boolean
 }
 
 export default class Register extends React.Component {
@@ -20,7 +20,7 @@ export default class Register extends React.Component {
     firstName: "",
     lastName: "",
     age: 0,
-    error: false
+    showError: false
   }
 
   register = async () => {
@@ -54,7 +54,7 @@ export default class Register extends React.Component {
   }
 
   componentDidUpdate(prevState: Readonly<state>): void {
-      if (this.state.error != prevState.error) {
+      if (this.state.showError != prevState.showError) {
         // render error msg
       }
   }
