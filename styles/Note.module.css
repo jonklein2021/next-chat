@@ -1,0 +1,26 @@
+.container {
+    width: 300px;
+    background-color: #FFF;
+    border-color: #121212;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+    transition: transform .2s;
+}
+
+.container:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.container:click {
+    transform: scale(0.95);
+}
+
+.container h1 {
+    color: #121212;
+}
+
+.container p {
+    color: #121212;
+}

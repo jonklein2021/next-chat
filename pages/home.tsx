@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 import styles from '../styles/Home.module.css'
 import bg from '../public/shapes.jpg'
 import Link from 'next/link'
-
-let user: {[k: string]: any} = {}
+import Note from "../components/Note";
 
 class Home extends React.Component {
   state = {
@@ -13,7 +12,7 @@ class Home extends React.Component {
 
   componentDidMount(): void {
     if (typeof window !== 'undefined') {
-      const user = sessionStorage.getItem("active-user");
+      const user = sessionStorage.getItem("firstName") || sessionStorage.getItem("username");
       this.setState({username : user});
     }
   }
@@ -35,6 +34,23 @@ class Home extends React.Component {
         }}>
           
           <h1>Good evening, {this.state.username}.</h1>
+
+          <div className={styles.box}>
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+          </div>
 
           <p><Link href="/" onClick={() => sessionStorage.clear()}>Sign out</Link></p>
 

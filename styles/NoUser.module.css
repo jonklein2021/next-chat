@@ -44,6 +44,15 @@
   margin-bottom: 10px;
 }
 
+.link {
+  color: rgb(0, 141, 207);
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: rgb(0, 163, 238);
+}
+
 .submit {
   height: 40px;
   width: 85%;
@@ -59,6 +68,26 @@
 .submit:hover {
   cursor: pointer;
   background-color: rgb(0, 163, 238);
+}
+
+.popup {
+  width: 100%;
+  line-height: 30px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #F2F2F2;
+  z-index: 1;
+}
+
+.x {
+  color: #F2F2F2;
+  font-size: 20px;
+  float: right;
+  cursor: pointer;
+}
+
+.x:hover {
+  color: lightgray;
 }
 
 /* Enable hover only on non-touch devices */

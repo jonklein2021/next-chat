@@ -90,7 +90,7 @@ export default class Register extends React.Component {
 
             <button className={styles.submit} onClick={() => this.register()}>Sign up</button>
 
-            <p>Have an account already? Sign in <Link href="/" style={{color: "rgb(0, 141, 207)"}}>here</Link></p>
+            <p>Have an account already? Sign in <Link href="/" className={styles.link} >here</Link></p>
 
           </div>
 

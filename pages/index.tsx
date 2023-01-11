@@ -1,14 +1,18 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/NoUser.module.css'
 import bg from '../public/shapes.jpg'
-import Link from 'next/link'
+import Popup from '../components/Popup'
 
 class Login extends React.Component {
   // store user inputs in state
   state = {
-    username: "",
-    password: "",
+    user: {
+      username: "",
+      password: ""
+    },
+    error: false
   }
 
   // check db for user/pass pair
@@ -20,24 +24,31 @@ class Login extends React.Component {
         headers: {
           'Content-Type' : 'application/json',
         },
-        body: JSON.stringify(this.state)
+        body: JSON.stringify(this.state.user)
       });
+
       const data = await res.json();
-      console.log(data);
       
 
       if (data.data.length === 0) {
         // user not found in db
-        console.log("LOGIN FAILED");
+        this.setState({user: {...this.state.user}, error: true});
       } else {
-        // user logs in successfully
-        sessionStorage.setItem("active-user", this.state.username);
+        // user logs in successfully: store data in session storage
+        const user : {[k: string]: string} = data.data[0];
+        for (const [k, v] of Object.entries(user)) {
+          sessionStorage.setItem(k, v);
+        }
         window.location.href = "/home";
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+
+  componentDidMount(): void {
+      sessionStorage.clear();
+  }
 
   render(): React.ReactNode {
     return (
@@ -58,13 +69,16 @@ class Login extends React.Component {
 
             <h1>Sign in</h1>
 
-            <input placeholder='Username' id='username' className={styles.input} onChange={e => this.setState({username: e.target.value})} />
+            <input placeholder='Username' id='username' className={styles.input} onChange={e => this.setState({user: {...this.state.user, username: e.target.value}})} />
 
-            <input placeholder='Password' id='password' className={styles.input} onChange={e => this.setState({password: e.target.value})} />
+            <input placeholder='Password' id='password' className={styles.input} onChange={e => this.setState({user: {...this.state.user, password: e.target.value}})} />
 
             <button className={styles.submit} onClick={() => this.login()}>Log in</button>
 
-            <p>No account? Register <Link href="/register" style={{color: "rgb(0, 141, 207)"}}>here</Link></p>
+            <p>No account? Register <Link href="/register" className={styles.link} >here</Link></p>
+
+            {this.state.error ? <Popup text='ERROR: Username or password incorrect' color='#de2f2f' onClick={() => this.setState({error: false})} /> : null}
+          
           </div>
 
         </main>
