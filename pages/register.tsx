@@ -1,44 +1,43 @@
-import React from "react";
+import React, { useState } from "react"
 import Head from 'next/head'
+import { useRouter } from "next/router"
+import Link from 'next/link'
 import styles from '../styles/NoUser.module.css'
 import bg from '../public/shapes.jpg'
-import Link from 'next/link'
-import Popup from "../components/Popup";
+import Popup from "../components/Popup"
 
-type state = {
-  username: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  age: Number,
-  error: Boolean,
-  errorMsg: string
-}
+const Register: React.FC = () => {
+  const router = useRouter();
 
-export default class Register extends React.Component {
-  state: state = {
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    age: 0,
-    error: false,
-    errorMsg: ""
-  }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState(0);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  register = async () => {
-    if (!this.state.username || !this.state.password) {
-      this.setState({error: true});
-      this.setState({errorMsg: "ERROR: Username and password requried."});
+  const signup = async () => {
+    if (!username || !password) {
+      setError(true);
+      setErrorMsg("ERROR: Username and password requried.");
       return;
     }
 
     try {
+      const userParams = {
+        username: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        age: age
+      };
+
       let newUser: {[k: string]: any} = {};
 
-      for (const [k, v] of Object.entries(this.state)) {
+      for (const [k, v] of Object.entries(userParams)) {
         if (v) {
-          newUser[k] = v;
+          newUser[k] = String(v);
         }
       }
 
@@ -54,24 +53,25 @@ export default class Register extends React.Component {
       console.log({ data });
 
       if (data.error.code === 11000) {
-        this.setState({error: true});
-        this.setState({errorMsg: "ERROR: Username already taken."});
+        setError(true);
+        setErrorMsg("ERROR: Username already taken.");
       }
 
       // successful if made it this far, log user in
-      for (const [k, v] of Object.entries(this.state)) {
-        if (k !== "error" && k !== "errorMsg") {
+      console.log("Registration successful");
+      
+      for (const [k, v] of Object.entries(newUser)) {
           sessionStorage.setItem(k, String(v));
-        }
       }
-      window.location.href = "/home";
+
+      // take user home
+      router.push("/home");
 
     } catch (error) {      
       console.log(error);
     }
   }
 
-  render(): React.ReactNode {
     return (
       <>
         <Head>
@@ -90,26 +90,30 @@ export default class Register extends React.Component {
 
             <h1>Register</h1>
 
-            <input placeholder='Username (Required)' id='username' className={styles.input} onChange={e => this.setState({username: e.target.value})} />
+            <input placeholder='Username (Required)' id='username' className={styles.input} onChange={e => setUsername(e.target.value)} />
 
-            <input placeholder='Password (Required)' id='password' className={styles.input} onChange={e => this.setState({password: e.target.value})} />
+            <input placeholder='Password (Required)' id='password' className={styles.input} onChange={e => setPassword(e.target.value)} />
             
-            <input placeholder='First Name (Optional)' id='firstName' className={styles.input} onChange={e => this.setState({firstName: e.target.value})} />
+            <input placeholder='First Name (Optional)' id='firstName' className={styles.input} onChange={e => setFirstName(e.target.value)} />
             
-            <input placeholder='Last Name (Optional)' id='lastName' className={styles.input} onChange={e => this.setState({lastName: e.target.value})} />
+            <input placeholder='Last Name (Optional)' id='lastName' className={styles.input} onChange={e => setLastName(e.target.value)} />
             
-            <input placeholder='Age (Optional)' id='age' className={styles.input} onChange={e => this.setState({age: e.target.value})} />
+            <input placeholder='Age (Optional)' id='age' className={styles.input} onChange={e => setAge(parseInt(e.target.value))} />
 
-            <button className={styles.submit} onClick={() => this.register()}>Sign up</button>
+            <button className={styles.submit} onClick={() => signup()}>Sign up</button>
 
             <p>Have an account already? Sign in <Link href="/" className={styles.link} >here</Link></p>
 
-            {this.state.error ? <Popup text={this.state.errorMsg} color='#de2f2f' onClick={() => this.setState({error: false, errorMsg: ""})} /> : null}
+            {error ? <Popup text={errorMsg} color='#de2f2f' onClick={() => {
+              setError(false);
+              setErrorMsg("");
+              }} /> : null}
 
           </div>
 
         </main>
       </>
     )
-  }
 }
+
+export default Register;

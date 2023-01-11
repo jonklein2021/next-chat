@@ -1,23 +1,32 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from '../styles/Home.module.css'
 import bg from '../public/shapes.jpg'
 import Link from 'next/link'
 import Note from "../components/Note";
 
-class Home extends React.Component {
-  state = {
-    username : ""
-  }
+const Home: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState(0);
 
-  componentDidMount(): void {
+  let user;
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      const user = sessionStorage.getItem("firstName") || sessionStorage.getItem("username");
-      this.setState({username : user});
+      setUsername(sessionStorage.getItem("username") || "");
+      setFirstName(sessionStorage.getItem("firstName") || "");
+      setLastName(sessionStorage.getItem("lastName") || "");
+      setAge(parseInt(sessionStorage.getItem("age") || "0"));
+      user = firstName || username;
+      console.log(username);
+      console.log(firstName);
+      console.log(lastName);
+      console.log(age);
     }
-  }
+  }, []);
 
-  render(): React.ReactNode {
     return (
       <>
         <Head>
@@ -33,7 +42,7 @@ class Home extends React.Component {
           height: '100%',
         }}>
           
-          <h1>Good evening, {this.state.username}.</h1>
+          <h1>Good evening, {username}.</h1>
 
           <div className={styles.box}>
             <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
@@ -57,7 +66,6 @@ class Home extends React.Component {
         </main>
       </>
     )
-  }
 }
 
 export default Home;
