@@ -34,10 +34,7 @@ const Register: React.FC = () => {
       };
 
       let newUser: {[k: string]: any} = {
-        notes: [{
-          title: "Sample title",
-          text: "Sample text"
-        }]
+        notes: []
       };
 
       for (const [k, v] of Object.entries(userParams)) {
@@ -46,7 +43,7 @@ const Register: React.FC = () => {
         }
       }
 
-      const res = await fetch('api/append', {
+      const res = await fetch('api/register', {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json',

@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../models/user';
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken'
 
-export default async function query(req: NextApiRequest, res: NextApiResponse) {
+ const Login = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req.query);
   try {
     // connect
     console.log('CONNECTING TO MONGODB...');
@@ -13,14 +15,24 @@ export default async function query(req: NextApiRequest, res: NextApiResponse) {
     
     // query & wait for response
     console.log('** QUERYING DATABASE... **');
-    const data = await User.find(req.body);
+    const data = await User.find(req.query);
     console.log('** RESPONSE RECEIVED **');
 
+    const { username, password } = req.query
+
     // return response
-    res.json({ data });    
+    res.json({
+      data,
+      token: jwt.sign({
+        username,
+        password,
+      }, process.env.JWT_KEY || "")
+    });
   } catch (error) {
     res.json({ error });
     console.log(error);
   }
   
 }
+
+export default Login;
