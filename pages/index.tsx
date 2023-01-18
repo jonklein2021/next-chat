@@ -34,17 +34,16 @@ const Login: React.FC = () => {
       
       console.log(data);
       
-      if (data.data.length === 0) {
+      if (data.length === 0) {
         // user not found in db
         setError(true);
-      } else {
-        // user logs in successfully: store data in session storage
-        const user : {[k: string]: string} = data.data[0];
-        for (const [k, v] of Object.entries(user)) {
-          sessionStorage.setItem(k, v);
-        }
-        router.push("/home");
+        return;
       }
+
+      // user logs in successfully: store jwt in cookie
+      document.cookie = `jwt=${data}`;
+      router.push("/home");
+      
     } catch (error) {
       console.log(error);
     }
