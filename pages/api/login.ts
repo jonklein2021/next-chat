@@ -4,8 +4,6 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken'
 
  const Login = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { username, password } = req.query;
-
   // connect
   console.log('CONNECTING TO MONGODB...');
   await mongoose.connect(process.env.MONGO_URI || "", {

@@ -7,11 +7,17 @@ import Link from 'next/link'
 import Note from "../components/Note";
 import jwt from 'jsonwebtoken'
 
+interface note {
+  title: string,
+  text: string
+}
+
 const Home: NextPage = () => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState(NaN);
+  const [notes, setNotes] = useState([]);
   let token;
 
   const printShit = () => {
@@ -21,12 +27,15 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       token = document.cookie.slice(4);
-      const decode = jwt.decode(token)["0"]; // HOW FIX
-      console.log(decode);
-      setUsername(decode["username"]);
-      setFirstName(decode["firstName"]);
-      setLastName(decode["lastName"]);
-      setAge(parseInt(decode["age"]));
+      if (token) {
+        const decode = jwt.decode(token)["0"]; // HOW FIX
+        console.log(decode);
+        setUsername(decode["username"]);
+        setFirstName(decode["firstName"]);
+        setLastName(decode["lastName"]);
+        setAge(parseInt(decode["age"]));
+        setNotes(decode["notes"]);
+      }
     }
   }, []);
 
@@ -48,17 +57,18 @@ const Home: NextPage = () => {
         <h1 onClick={() => printShit()}>Good evening, {firstName || username}.</h1>
 
         <div className={styles.box}>
-          <Note title="Note 1" text="Id nostrum voluptatem ad porro voluptas non voluptas debitis eos mollitia fugit est iusto esse. Eum soluta explicabo At galisum voluptatem vel nihil totam ea similique vitae eum voluptas odit ea suscipit nisi." />
+          {notes.map(note => (<Note key={note['title']} title={note['title']} text={note['text']} />))}
+          {/* <Note title="Note 1" text="Id nostrum voluptatem ad porro voluptas non voluptas debitis eos mollitia fugit est iusto esse. Eum soluta explicabo At galisum voluptatem vel nihil totam ea similique vitae eum voluptas odit ea suscipit nisi." />
           <Note title="Note 2" text="Eum aliquam galisum id dolore quia quo porro laborum. In exercitationem sapiente ut temporibus laborum et asperiores molestias aut voluptatem aspernatur a asperiores iusto et autem totam est debitis omnis." />
           <Note title="Note 3" text="Ut itaque galisum et pariatur aspernatur est quod velit. Ab culpa expedita 33 saepe ipsum qui ratione aliquam 33 corrupti cupiditate in voluptate maiores." />
           <Note title="Note 4" text="Sed aspernatur quia et ratione ducimus ab sequi porro cum ipsum omnis. Et cumque ratione et maiores sapiente ad facere asperiores aut laudantium fugit." />
           <Note title="Note 5" text="Non quia quam et nobis totam eum odit magni et nulla dolores? Sed cupiditate molestias hic temporibus deserunt ut mollitia voluptatem qui aliquid fugiat et debitis eligendi non perspiciatis amet? Qui vero doloribus aut eveniet aliquam aut esse omnis non excepturi iusto At modi adipisci. Qui molestiae quae non porro distinctio ut laborum quas ut veritatis quisquam." />
           <Note title="Note 6" text="Sed asperiores possimus et autem officiis et vero Quis qui rerum sunt ad suscipit dolores. Ea delectus expedita sed adipisci illo eos rerum veritatis ea voluptatem dolore?" />
           <Note title="Note 7" text="Sit recusandae incidunt qui voluptates minima quo dolor similique. Quo eaque iste ut accusantium laudantium 33 voluptas fugit et quibusdam cumque." />
-          <Note title="Note 8" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+          <Note title="Note 8" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." /> */}
         </div>
 
-        <p><Link href="/" onClick={() => {document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"}}>Sign out</Link></p>
+        <p><Link href="/" onClick={() => document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"}>Sign out</Link></p>
 
       </main>
     </>

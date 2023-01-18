@@ -16,63 +16,55 @@ const Register: React.FC = () => {
   const [age, setAge] = useState(0);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [errorCol, setErrorCol] = useState("");
 
   const signup = async () => {
-    if (!username || !password) {
+    if (!(username && password)) {
       setError(true);
       setErrorMsg("ERROR: Username and password requried.");
+      setErrorCol("#de2f2f");
       return;
     }
 
-    try {
-      const userParams = {
-        username: username,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        age: age,
-      };
+    const userParams = {
+      username: username,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
+    };
 
-      let newUser: {[k: string]: any} = {
-        notes: []
-      };
+    let newUser: {[k: string]: any} = {
+      notes: []
+    };
 
-      for (const [k, v] of Object.entries(userParams)) {
-        if (v || k === "notes") {
-          newUser[k] = v;
-        }
+    for (const [k, v] of Object.entries(userParams)) {
+      if (v || k === "notes") {
+        newUser[k] = v;
       }
-
-      const res = await fetch('api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify(newUser)
-      });
-
-      const data = await res.json();
-
-      console.log(data);
-
-      if (data.error.code === 11000) {
-        setError(true);
-        setErrorMsg("ERROR: Username already taken.");
-      } else {
-        // successful if made it this far, log user in
-        console.log("Registration successful");
-        
-        for (const [k, v] of Object.entries(newUser)) {
-            sessionStorage.setItem(k, String(v));
-        }
-
-        // take user home
-        router.push("/home");
-      }
-
-    } catch (error) {      
-      console.log(error);
     }
+
+    const res = await fetch('api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify(newUser)
+    });
+
+    const data = await res.json();
+
+    // successful if made it this far, log user in
+    setError(true);
+    setErrorMsg("Registration Successful: Please login.");
+    setErrorCol("#52be80");
+
+    if ("error" in data && data.error.code === 11000) {
+      setError(true);
+      setErrorMsg("ERROR: Username already taken.");
+      setErrorCol("#de2f2f");
+    }
+
   }
 
     return (
@@ -107,9 +99,10 @@ const Register: React.FC = () => {
 
             <p>Have an account already? Sign in <Link href="/" className={styles.link} >here</Link></p>
 
-            {error ? <Popup text={errorMsg} color='#de2f2f' onClick={() => {
+            {error ? <Popup text={errorMsg} color={errorCol} onClick={() => {
               setError(false);
               setErrorMsg("");
+              setErrorCol("");
               }} /> : null}
 
           </div>
