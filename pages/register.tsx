@@ -30,14 +30,19 @@ const Register: React.FC = () => {
         password: password,
         firstName: firstName,
         lastName: lastName,
-        age: age
+        age: age,
       };
 
-      let newUser: {[k: string]: any} = {};
+      let newUser: {[k: string]: any} = {
+        notes: [{
+          title: "Sample title",
+          text: "Sample text"
+        }]
+      };
 
       for (const [k, v] of Object.entries(userParams)) {
-        if (v) {
-          newUser[k] = String(v);
+        if (v || k === "notes") {
+          newUser[k] = v;
         }
       }
 
@@ -50,22 +55,23 @@ const Register: React.FC = () => {
       });
 
       const data = await res.json();
-      console.log({ data });
+
+      console.log(data);
 
       if (data.error.code === 11000) {
         setError(true);
         setErrorMsg("ERROR: Username already taken.");
-      }
+      } else {
+        // successful if made it this far, log user in
+        console.log("Registration successful");
+        
+        for (const [k, v] of Object.entries(newUser)) {
+            sessionStorage.setItem(k, String(v));
+        }
 
-      // successful if made it this far, log user in
-      console.log("Registration successful");
-      
-      for (const [k, v] of Object.entries(newUser)) {
-          sessionStorage.setItem(k, String(v));
+        // take user home
+        router.push("/home");
       }
-
-      // take user home
-      router.push("/home");
 
     } catch (error) {      
       console.log(error);

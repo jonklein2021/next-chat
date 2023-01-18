@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
   // check db for user/pass pair
   // admit entry if it exists, reject otherwise
-  const authorize = async () => {
+  const authenticate = async () => {
     try {
       const res = await fetch('api/query', {
         method: 'POST',
@@ -31,6 +31,8 @@ const Login: React.FC = () => {
       });
 
       const data = await res.json();
+      
+      console.log(data);
       
       if (data.data.length === 0) {
         // user not found in db
@@ -70,7 +72,7 @@ const Login: React.FC = () => {
 
           <input placeholder='Password' id='password' className={styles.input} onChange={e => setPassword(e.target.value)} />
 
-          <button className={styles.submit} onClick={() => authorize()}>Log in</button>
+          <button className={styles.submit} onClick={() => authenticate()}>Log in</button>
 
           <p>No account? Register <Link href="/register" className={styles.link} >here</Link></p>
 

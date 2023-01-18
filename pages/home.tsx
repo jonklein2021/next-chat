@@ -11,7 +11,11 @@ const Home: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState(0);
 
-  let user;
+  const printShit = (): void => {
+    console.log({username, firstName, lastName, age, user});
+  }
+
+  let user = username;
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -19,11 +23,6 @@ const Home: React.FC = () => {
       setFirstName(sessionStorage.getItem("firstName") || "");
       setLastName(sessionStorage.getItem("lastName") || "");
       setAge(parseInt(sessionStorage.getItem("age") || "0"));
-      user = firstName || username;
-      console.log(username);
-      console.log(firstName);
-      console.log(lastName);
-      console.log(age);
     }
   }, []);
 
@@ -42,23 +41,17 @@ const Home: React.FC = () => {
           height: '100%',
         }}>
           
-          <h1>Good evening, {username}.</h1>
+          <h1 onClick={() => printShit()}>Good evening, {firstName || username}.</h1>
 
           <div className={styles.box}>
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
-            <Note title="LinkedIn" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
+            <Note title="Note 1" text="Id nostrum voluptatem ad porro voluptas non voluptas debitis eos mollitia fugit est iusto esse. Eum soluta explicabo At galisum voluptatem vel nihil totam ea similique vitae eum voluptas odit ea suscipit nisi." />
+            <Note title="Note 2" text="Eum aliquam galisum id dolore quia quo porro laborum. In exercitationem sapiente ut temporibus laborum et asperiores molestias aut voluptatem aspernatur a asperiores iusto et autem totam est debitis omnis." />
+            <Note title="Note 3" text="Ut itaque galisum et pariatur aspernatur est quod velit. Ab culpa expedita 33 saepe ipsum qui ratione aliquam 33 corrupti cupiditate in voluptate maiores." />
+            <Note title="Note 4" text="Sed aspernatur quia et ratione ducimus ab sequi porro cum ipsum omnis. Et cumque ratione et maiores sapiente ad facere asperiores aut laudantium fugit." />
+            <Note title="Note 5" text="Non quia quam et nobis totam eum odit magni et nulla dolores? Sed cupiditate molestias hic temporibus deserunt ut mollitia voluptatem qui aliquid fugiat et debitis eligendi non perspiciatis amet? Qui vero doloribus aut eveniet aliquam aut esse omnis non excepturi iusto At modi adipisci. Qui molestiae quae non porro distinctio ut laborum quas ut veritatis quisquam." />
+            <Note title="Note 6" text="Sed asperiores possimus et autem officiis et vero Quis qui rerum sunt ad suscipit dolores. Ea delectus expedita sed adipisci illo eos rerum veritatis ea voluptatem dolore?" />
+            <Note title="Note 7" text="Sit recusandae incidunt qui voluptates minima quo dolor similique. Quo eaque iste ut accusantium laudantium 33 voluptas fugit et quibusdam cumque." />
+            <Note title="Note 8" text="Studying Computer Science and Mathematics via Lehigh University's IDEAS program. Always hungry to learn more and explore new things. Looking for Summer 2023 internship opportunities." />
           </div>
 
           <p><Link href="/" onClick={() => sessionStorage.clear()}>Sign out</Link></p>

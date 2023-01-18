@@ -6,7 +6,9 @@ export default async function query(req: NextApiRequest, res: NextApiResponse) {
   try {
     // connect
     console.log('CONNECTING TO MONGODB...');
-    await mongoose.connect("mongodb://localhost/next-chat");
+    await mongoose.connect(process.env.MONGO_URI || "", {
+      dbName: 'next-notes'
+    });
     console.log('** CONNECTION MADE SUCCESSFULLY **');
     
     // query & wait for response

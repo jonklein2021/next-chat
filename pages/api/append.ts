@@ -2,11 +2,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../models/user';
 import mongoose from 'mongoose';
 
-export default async function append(req: NextApiRequest, res: NextApiResponse) {
+export default async function append(req: NextApiRequest, res: NextApiResponse) {  
   try {
     // connect
     console.log('CONNECTING TO MONGODB...');
-    await mongoose.connect("mongodb://localhost/next-chat");
+    await mongoose.connect(process.env.MONGO_URI || "", {
+      dbName: 'next-notes'
+    });
     console.log('** CONNECTION MADE SUCCESSFULLY **');
     
     // create document and send to db
