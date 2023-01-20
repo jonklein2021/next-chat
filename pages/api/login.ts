@@ -23,7 +23,7 @@ import jwt from 'jsonwebtoken'
     }
   }
   
-  // return jwt if user found
+  // return jwt if user found, an empty string otherwise
   res.json(data.length > 0 ? jwt.sign(user, process.env.JWT_KEY || "") : "");
 }
 

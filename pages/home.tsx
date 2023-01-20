@@ -7,11 +7,6 @@ import Link from 'next/link'
 import Note from "../components/Note";
 import jwt from 'jsonwebtoken'
 
-interface note {
-  title: string,
-  text: string
-}
-
 const Home: NextPage = () => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -28,13 +23,12 @@ const Home: NextPage = () => {
     if (typeof window !== 'undefined') {
       token = document.cookie.slice(4);
       if (token) {
-        const decode = jwt.decode(token)["0"]; // HOW FIX
-        console.log(decode);
-        setUsername(decode["username"]);
-        setFirstName(decode["firstName"]);
-        setLastName(decode["lastName"]);
-        setAge(parseInt(decode["age"]));
-        setNotes(decode["notes"]);
+        const decode = jwt.decode(token) as any;
+        setUsername(decode[0]["username"]);
+        setFirstName(decode[0]["firstName"]);
+        setLastName(decode[0]["lastName"]);
+        setAge(parseInt(decode[0]["age"]));
+        setNotes(decode[0]["notes"]);
       }
     }
   }, []);
@@ -57,7 +51,7 @@ const Home: NextPage = () => {
         <h1 onClick={() => printShit()}>Good evening, {firstName || username}.</h1>
 
         <div className={styles.box}>
-          {notes.map(note => (<Note key={note['title']} title={note['title']} text={note['text']} />))}
+          {notes.map(note => <Note key={note['title']} title={note['title']} text={note['text']} />)}
           {/* <Note title="Note 1" text="Id nostrum voluptatem ad porro voluptas non voluptas debitis eos mollitia fugit est iusto esse. Eum soluta explicabo At galisum voluptatem vel nihil totam ea similique vitae eum voluptas odit ea suscipit nisi." />
           <Note title="Note 2" text="Eum aliquam galisum id dolore quia quo porro laborum. In exercitationem sapiente ut temporibus laborum et asperiores molestias aut voluptatem aspernatur a asperiores iusto et autem totam est debitis omnis." />
           <Note title="Note 3" text="Ut itaque galisum et pariatur aspernatur est quod velit. Ab culpa expedita 33 saepe ipsum qui ratione aliquam 33 corrupti cupiditate in voluptate maiores." />

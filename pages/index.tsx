@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import styles from '../styles/NoUser.module.css'
 import bg from '../public/shapes.jpg'
 import Popup from '../components/Popup'
-import jwt from 'jsonwebtoken'
 
 
 const Login: React.FC = () => {
